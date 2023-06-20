@@ -33,11 +33,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import static com.theoplayer.android.api.source.SourceDescription.Builder.sourceDescription;
-import static com.theoplayer.android.api.source.TypedSource.Builder.typedSource;
-import static com.theoplayer.android.api.source.addescription.GoogleImaAdDescription.Builder.googleImaAdDescription;
-import static com.theoplayer.android.api.source.addescription.THEOplayerAdDescription.Builder.adDescription;
-
 public class MainActivity extends AppCompatActivity {
 
     static final String TAG = "MainActivity";
@@ -189,13 +184,11 @@ public class MainActivity extends AppCompatActivity {
     void setupVMAPAd(String adTagUri) {
         adTagUri = "https://cdn.theoplayer.com/demos/ads/vmap/vmap.xml";
         Log.d(TAG, "VMAP AD: " + adTagUri);
-        TypedSource.Builder typedSource = typedSource(getString(R.string.defaultSourceUrl));
-        AdDescription ad = THEOplayerAdDescription.Builder
-                .adDescription(adTagUri)
+        TypedSource.Builder typedSource = new TypedSource.Builder(getString(R.string.defaultSourceUrl));
+        AdDescription ad = new THEOplayerAdDescription.Builder(adTagUri)
                 //.timeOffset("start")
                 .build();
-        SourceDescription sourceDescription = SourceDescription.Builder
-                .sourceDescription(typedSource.build())
+        SourceDescription sourceDescription = new SourceDescription.Builder(typedSource.build())
                 .ads(ad)
                 .build();
         theoPlayer.setSource(sourceDescription);
@@ -204,12 +197,9 @@ public class MainActivity extends AppCompatActivity {
     void setupVASTAd(String adTagUri) {
         adTagUri = "https://cdn.theoplayer.com/demos/ads/vast/vast.xml";
         Log.d(TAG, "VAST AD: " + adTagUri);
-        TypedSource.Builder typedSource = typedSource(getString(R.string.defaultSourceUrl));
-        SourceDescription.Builder sourceDescription = sourceDescription(typedSource.build());
-                    sourceDescription.ads(
-                    adDescription(adTagUri)
-                            .timeOffset("start")
-                            .build());
+        TypedSource.Builder typedSource = new TypedSource.Builder(getString(R.string.defaultSourceUrl));
+        SourceDescription.Builder sourceDescription = new SourceDescription.Builder(typedSource.build())
+                .ads(new THEOplayerAdDescription.Builder(adTagUri).timeOffset("start").build());
         theoPlayer.setSource(sourceDescription.build());
     }
 }
