@@ -46,6 +46,7 @@ import com.mux.stats.sdk.muxstats.MuxErrorException;
 import com.mux.stats.sdk.muxstats.MuxSDKViewPresentation;
 import com.mux.stats.sdk.muxstats.MuxStats;
 import com.theoplayer.android.api.THEOplayerView;
+import com.theoplayer.android.api.ads.ima.GoogleImaAdEventType;
 import com.theoplayer.android.api.event.EventListener;
 import com.theoplayer.android.api.event.ads.AdsEventTypes;
 import com.theoplayer.android.api.event.player.PlayerEventTypes;
@@ -226,11 +227,11 @@ public class MuxBaseSDKTheoPlayer extends EventBus implements IPlayerListener {
         ));
 
         // Ads listeners
-        player.getPlayer().getAds().addEventListener(AdsEventTypes.AD_ERROR, event -> {
+        player.getPlayer().getAds().addEventListener(GoogleImaAdEventType.AD_ERROR, event -> {
             dispatch(new AdErrorEvent(null));
         });
 
-        player.getPlayer().getAds().addEventListener(AdsEventTypes.AD_BREAK_BEGIN, event -> {
+        player.getPlayer().getAds().addEventListener(GoogleImaAdEventType.AD_BREAK_STARTED, event -> {
             // Dispatch pause event because pause callback will not be called
             dispatch(new PauseEvent(null));
             // Record that we're in an ad break so we can supress standard play/playing/pause events
@@ -246,18 +247,18 @@ public class MuxBaseSDKTheoPlayer extends EventBus implements IPlayerListener {
             dispatch(adBreakEvent);
         });
 
-        player.getPlayer().getAds().addEventListener(AdsEventTypes.AD_BEGIN, event -> {
+        player.getPlayer().getAds().addEventListener(GoogleImaAdEventType.STARTED, event -> {
             // Play listener is called before AD_BREAK_END event, this is a problem
             inAdPlayback = true;
             dispatch(new AdPlayEvent(null));
         });
 
-        player.getPlayer().getAds().addEventListener(AdsEventTypes.AD_END, event -> {
+        player.getPlayer().getAds().addEventListener(GoogleImaAdEventType.COMPLETED, event -> {
             inAdPlayback = false;
             dispatch(new AdEndedEvent(null));
         });
 
-        player.getPlayer().getAds().addEventListener(AdsEventTypes.AD_BREAK_END, event -> {
+        player.getPlayer().getAds().addEventListener(GoogleImaAdEventType.AD_BREAK_ENDED, event -> {
             inAdBreak = false;
             // Reset all of our state correctly for getting out of ads
             dispatch(new AdBreakEndEvent(null));
