@@ -20,7 +20,6 @@ import com.theoplayer.android.api.event.player.PlayerEventTypes;
 import com.theoplayer.android.api.player.Player;
 import com.theoplayer.android.api.player.ReadyState;
 import com.theoplayer.android.api.source.SourceDescription;
-import com.theoplayer.android.api.source.SourceType;
 import com.theoplayer.android.api.source.TypedSource;
 import com.theoplayer.android.api.source.addescription.AdDescription;
 import com.theoplayer.android.api.source.addescription.THEOplayerAdDescription;
@@ -30,6 +29,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import static com.theoplayer.android.api.source.SourceDescription.Builder.sourceDescription;
+import static com.theoplayer.android.api.source.TypedSource.Builder.typedSource;
+import static com.theoplayer.android.api.source.addescription.THEOplayerAdDescription.Builder.adDescription;
 
 public class SimplePlayerTestActivity extends AppCompatActivity
 {
@@ -94,7 +97,7 @@ public class SimplePlayerTestActivity extends AppCompatActivity
         }));
 
         player.addEventListener(PlayerEventTypes.ERROR, (errorEvent -> {
-            Log.e(TAG, "Got error: " + errorEvent.getErrorObject().getMessage());
+            Log.e(TAG, "Got error: " + errorEvent.getError());
         }));
 
         player.addEventListener(PlayerEventTypes.TIMEUPDATE, (timeEvent -> {
@@ -153,9 +156,9 @@ public class SimplePlayerTestActivity extends AppCompatActivity
         if ( loadedAdTagUri != null ) {
             setupVMAPAd( loadedAdTagUri.toString() );
         } else {
-            TypedSource.Builder typedSource = new TypedSource.Builder( urlToPlay );
-            typedSource.type(SourceType.MP4);
-            testMediaSource = new SourceDescription.Builder(typedSource.build())
+            TypedSource.Builder typedSource = typedSource( urlToPlay );
+            testMediaSource = SourceDescription.Builder
+                    .sourceDescription(typedSource.build())
                     .build();
             player.setSource(testMediaSource);
             player.setCurrentTime(playbackStartPosition);
@@ -164,9 +167,10 @@ public class SimplePlayerTestActivity extends AppCompatActivity
     }
 
     void setupVMAPAd(String adTagUri) {
-        TypedSource.Builder typedSource = new TypedSource.Builder( urlToPlay );
-        AdDescription ad = new THEOplayerAdDescription.Builder(adTagUri).build();
-        testMediaSource = new SourceDescription.Builder(typedSource.build())
+        TypedSource.Builder typedSource = typedSource( urlToPlay );
+        AdDescription ad = THEOplayerAdDescription.Builder.adDescription(adTagUri).build();
+        testMediaSource = SourceDescription.Builder
+                .sourceDescription(typedSource.build())
                 .ads(ad)
                 .build();
         player.setSource(testMediaSource);

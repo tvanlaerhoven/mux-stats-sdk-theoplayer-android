@@ -48,7 +48,6 @@ import com.mux.stats.sdk.muxstats.MuxStats;
 import com.theoplayer.android.api.THEOplayerView;
 import com.theoplayer.android.api.ads.ima.GoogleImaAdEventType;
 import com.theoplayer.android.api.event.EventListener;
-import com.theoplayer.android.api.event.ads.AdsEventTypes;
 import com.theoplayer.android.api.event.player.PlayerEventTypes;
 import com.theoplayer.android.api.event.track.mediatrack.video.VideoTrackEventTypes;
 import com.theoplayer.android.api.event.track.mediatrack.video.list.AddTrackEvent;

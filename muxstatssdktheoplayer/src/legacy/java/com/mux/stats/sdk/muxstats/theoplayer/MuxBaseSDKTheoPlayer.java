@@ -229,7 +229,7 @@ public class MuxBaseSDKTheoPlayer extends EventBus implements IPlayerListener {
         }));
 
         player.getPlayer().addEventListener(PlayerEventTypes.ERROR, (errorEvent ->
-                internalError(new MuxErrorException(0, errorEvent.getError()))
+                internalError(new MuxErrorException(0, errorEvent.getErrorObject().getMessage()))
         ));
 
         // Ads listeners

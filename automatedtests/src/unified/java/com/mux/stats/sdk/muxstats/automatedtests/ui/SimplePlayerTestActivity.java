@@ -20,7 +20,6 @@ import com.theoplayer.android.api.event.player.PlayerEventTypes;
 import com.theoplayer.android.api.player.Player;
 import com.theoplayer.android.api.player.ReadyState;
 import com.theoplayer.android.api.source.SourceDescription;
-import com.theoplayer.android.api.source.SourceType;
 import com.theoplayer.android.api.source.TypedSource;
 import com.theoplayer.android.api.source.addescription.AdDescription;
 import com.theoplayer.android.api.source.addescription.THEOplayerAdDescription;
@@ -154,7 +153,6 @@ public class SimplePlayerTestActivity extends AppCompatActivity
             setupVMAPAd( loadedAdTagUri.toString() );
         } else {
             TypedSource.Builder typedSource = new TypedSource.Builder( urlToPlay );
-            typedSource.type(SourceType.MP4);
             testMediaSource = new SourceDescription.Builder(typedSource.build())
                     .build();
             player.setSource(testMediaSource);
