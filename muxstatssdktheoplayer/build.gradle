@@ -109,6 +109,7 @@ def safeExtGet(prop, fallback) {
 }
 def theoplayer_legacy_version = safeExtGet('THEOplayer_legacy_sdk', '4.+')
 def theoplayer_unified_version = safeExtGet('THEOplayer_legacy_sdk', '5.+')
+def muxcore_version = safeExtGet('muxCoreVersion', '7.0.10')
 
 dependencies {
     implementation 'com.android.support:multidex:1.0.3'
@@ -125,7 +126,7 @@ dependencies {
     compileOnly 'com.google.android.gms:play-services-ads-identifier:17.0.0'
     testImplementation 'junit:junit:4.12'
 
-    api "com.mux:stats.muxcore:${project.ext.muxCoreVersion}"
+    api "com.mux:stats.muxcore:$muxcore_version"
 }
 
 apply from: '../MuxAndroidSDKPublishing/declare_publication.gradle'
